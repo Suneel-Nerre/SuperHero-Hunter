@@ -1,7 +1,4 @@
-#text-box{
-    color: red;
-}
-
-#favorites-button{
-    color: green;
+.logo{
+    width: 4%;
+    min-width: 45px;
 }
