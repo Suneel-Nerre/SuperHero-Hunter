@@ -47,3 +47,24 @@ body{
     width: 3%;
     min-width: 45px;
 }
+
+.link-to-different-page{
+    justify-content: center;
+    text-decoration: none;
+}
+
+.btn{
+    border: none;
+    outline: none;
+    padding: 10px;
+    background-color: #DC143C;
+    border-radius: 3px;
+    color: beige;
+    height: 40px;
+    font-size: 16px;
+}
+
+.fav-btn{
+    font-size: 16px;
+    width: 130px;
+}
