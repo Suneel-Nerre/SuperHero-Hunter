@@ -32,7 +32,37 @@
 
     <!-- Search bar and results -->
     <div class="flex-col search-block">
-
+        <div class="search-bar-container flex-row">
+            <div class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <input type="text" id="search-bar" placeholder="Search for superheros">
+        </div>
+        <ul class="flex-col" id="search-results">
+            <!-- Structure of the data that is added using DOM manipulation -->
+               <!-- <li class="flex-row single-search-result">
+                    <div class="flex-row img-info">
+                         <img src="${hero.thumbnail.path+'/portrait_medium.' + hero.thumbnail.extension}" alt="">
+                         <div class="hero-info">
+                              <a class="character-info" href="./more-info.html">
+                                   <span class="hero-name">${hero.name}</span>
+                              </a>
+                         </div>
+                    </div>
+                    <div class="flex-col buttons">
+                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart fav-icon\"></i> &nbsp; Add to Favourites</button>"}
+                    </div>
+                    <div style="display:none;">
+                         <span>${hero.name}</span>
+                         <span>${hero.description}</span>
+                         <span>${hero.comics.available}</span>
+                         <span>${hero.series.available}</span>
+                         <span>${hero.stories.available}</span>
+                         <span>${hero.thumbnail.path+'/portrait_uncanny.' + hero.thumbnail.extension}</span>
+                         <span>${hero.id}</span>
+                         <span>${hero.thumbnail.path+'/landscape_incredible.' + hero.thumbnail.extension}</span>
+                         <span>${hero.thumbnail.path+'/standard_fantastic.' + hero.thumbnail.extension}</span>
+                    </div>
+               </li> -->
+        </ul>
     </div>
 
     <!-- background image -->
