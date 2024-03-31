@@ -1,118 +1,88 @@
-// Public key
-// 9ab871748d83ae2eb5527ffd69e034de
+// Selecting the elements from the DOM
+let info = document.getElementById('info-container');
+let title = document.getElementById('page-title');
 
-// Private Key
-// ad79003cf7316d9bd72c6eda71d1c93d7e807e90
+// getting the heroInfo object which was stored when the user clicked on more info
+let heroInfo = JSON.parse(localStorage.getItem("heroInfo"));
 
-// hash
-// 1ad79003cf7316d9bd72c6eda71d1c93d7e807e909ab871748d83ae2eb5527ffd69e034de
-// md5(hash) = d35377547e551cd64a60657d2517bb7f
+// Changing the title of the page according to the characters name
+title.innerHTML = heroInfo.name + " | SH";
 
-//*-------------------------------------- Selecting the element from DOM ----------------------------------------------------
-let searchBar = document.getElementById("search-bar");
-let searchResults = document.getElementById("search-results");
-
-// Adding eventListener to search bar
-searchBar.addEventListener("input", () => searchHeros(searchBar.value));
-
-// function for API call
-async function searchHeros(textSearched) {
-
-     // let PUBLIC_KEY = "9ab871748d83ae2eb5527ffd69e034de";
-     // let PRIVATE_KEY = "ad79003cf7316d9bd72c6eda71d1c93d7e807e90";
-
-     // let ts = new Date().getTime();
-     // let hash = CryptoJS.MD5(ts + PRIVATE_KEY + PUBLIC_KEY).toString();
-     
-     // if there is no text written in the search bar then nothing is displayed 
-     if (textSearched.length == 0) {
-          searchResults.innerHTML = ``;
-          return;
-     }
-
-     // API call to get the data 
-     await fetch(`https://gateway.marvel.com/v1/public/characters?nameStartsWith=${textSearched}&apikey=9ab871748d83ae2eb5527ffd69e034de&hash=d35377547e551cd64a60657d2517bb7f?ts=1`)
-          .then(res => res.json()) //Converting the data into JSON format
-          .then(data => showSearchedResults(data.data.results)) //sending the searched results characters to show in HTML
-}
-
-// Function for displaying the searched results in DOM
-// An array is accepted as argument 
-// SearchedHero is the array of objects which matches the string entered in the searched bar
-function showSearchedResults(searchedHero) {
-
-
-     // IDs of the character which are added in the favourites 
-     // Used for displaying the appropriate button in search results i.e
-     // if the id exist in this array then we display "Remove from favourites" button otherwise we display "Add to favourites button"
-     // favouritesCharacterIDs is a map which contains id of character as key and true as value 
+window.addEventListener("load", function () {
+     // getting the favouritesCharacterIDs for displaying the appropriate button accoring to the existance of character in favourites
      let favouritesCharacterIDs = localStorage.getItem("favouritesCharacterIDs");
-     if(favouritesCharacterIDs == null){
-          // If we did't got the favouritesCharacterIDs then we iniitalize it with empty map
+     if (favouritesCharacterIDs == null) {
           favouritesCharacterIDs = new Map();
-     }
-     else if(favouritesCharacterIDs != null){
-          // If the we got the favouritesCharacterIDs in localStorage then parsing it and converting it to map
+     } else if (favouritesCharacterIDs != null) {
           favouritesCharacterIDs = new Map(JSON.parse(localStorage.getItem("favouritesCharacterIDs")));
      }
 
-     searchResults.innerHTML = ``;
-     // count is used to count the result displayed in DOM
-     let count = 1;
-
-     // iterating the searchedHero array using for loop
-     for (const key in searchedHero) {
-          // if count <= 5 then only we display it in dom other results are discarded
-          if (count <= 5) {
-               // getting the single hero 
-               // hero is the object that we get from API
-               let hero = searchedHero[key];
-               // Appending the element into DOM
-               searchResults.innerHTML +=
-                    `
-               <li class="flex-row single-search-result">
-                    <div class="flex-row img-info">
-                         <img src="${hero.thumbnail.path+'/portrait_medium.' + hero.thumbnail.extension}" alt="">
-                         <div class="hero-info">
-                              <a class="character-info" href="./more-info.html">
-                                   <span class="hero-name">${hero.name}</span>
-                              </a>
+     // adding the information into DOM 
+     info.innerHTML =
+          `
+               <div class="flex-row hero-name">${heroInfo.name}</div>
+               <div class="flex-row hero-img-and-more-info">
+                    <img id="portraitImage" class="hero-img" src="${heroInfo.portraitImage}" alt="">
+                    <img style="display:none;" id="landscapeImage" src="${heroInfo.landscapeImage}" alt="">
+                    <div class="flex-col more-info">
+                         <div class="flex-row id">
+                              <b>ID:</b><span>${heroInfo.id}</span>
+                         </div>
+                         <div class="flex-row comics">
+                              <b>Comics:</b><span>${heroInfo.comics}</span>
+                         </div>
+                         <div class="flex-row series">
+                              <b>Series:</b><span>${heroInfo.series}</span>
+                         </div>
+                         <div class="flex-row stories">
+                              <b>Stories:</b><span>${heroInfo.stories}</span>
                          </div>
                     </div>
-                    <div class="flex-col buttons">
-                         <!-- <button class="btn"><i class="fa-solid fa-circle-info"></i> &nbsp; More Info</button> -->
-                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart fav-icon\"></i> &nbsp; Add to Favourites</button>"}
-                    </div>
-                    <div style="display:none;">
-                         <span>${hero.name}</span>
-                         <span>${hero.description}</span>
-                         <span>${hero.comics.available}</span>
-                         <span>${hero.series.available}</span>
-                         <span>${hero.stories.available}</span>
-                         <span>${hero.thumbnail.path+'/portrait_uncanny.' + hero.thumbnail.extension}</span>
-                         <span>${hero.id}</span>
-                         <span>${hero.thumbnail.path+'/landscape_incredible.' + hero.thumbnail.extension}</span>
-                         <span>${hero.thumbnail.path+'/standard_fantastic.' + hero.thumbnail.extension}</span>
-                    </div>
-               </li>
-               `
-          }
-          count++;
+               </div>
+               <div class="flex-col hero-discription">
+                    <b>Discription:</b>
+                    <p>${heroInfo.description != "" ? heroInfo.description : "No Description Available"}</p>
+               </div>
+               <div style="display:none;">
+                    <span>${heroInfo.name}</span>
+                    <span>${heroInfo.portraitImage}</span>
+                    <span>${heroInfo.landscapeImage}</span>
+                    <span>${heroInfo.id}</span>
+                    <span>${heroInfo.comics}</span>
+                    <span>${heroInfo.series}</span>
+                    <span>${heroInfo.stories}</span>
+                    <span>${heroInfo.squareImage}</span>
+                    <span>${heroInfo.description}</span>
+               </div>
+               <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${heroInfo.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart fav-icon\"></i> &nbsp; Add to Favourites</button>"}
+
+          `
+     // Calling the function so that event is added
+     addEvent();
+})
+
+// Changing the character image based on the different screen sizes 
+// landscape image for small screen size and potrait image for bigger screen sizes
+window.addEventListener('resize', function () {
+     let portraitImage = document.getElementById('portraitImage');
+     let landscapeImage = document.getElementById('landscapeImage');
+
+     if (document.body.clientWidth < 678) {
+          portraitImage.style.display = "none";
+          landscapeImage.style.display = "block";
+     } else {
+          landscapeImage.style.display = "none";
+          portraitImage.style.display = "block";
      }
-     // Adding the appropritate events to the buttons after they are inserted in dom
-     events();
+})
+
+// this function would run after content of the page is loaded
+function addEvent() {
+     let favouriteButton = document.querySelector('.add-to-fav-btn');
+     favouriteButton.addEventListener("click", addToFavourites);
 }
 
-// Function for attacthing eventListener to buttons
-function events() {
-     let favouriteButton = document.querySelectorAll(".add-to-fav-btn");
-     favouriteButton.forEach((btn) => btn.addEventListener("click", addToFavourites));
 
-     let characterInfo = document.querySelectorAll(".character-info");
-     characterInfo.forEach((character) => character.addEventListener("click", addInfoInLocalStorage))
-}
-
-// Function invoked when "Add to Favourites" button or "Remvove from favourites" button is click appropriate action is taken accoring to the button clicked
 function addToFavourites() {
 
      // If add to favourites button is cliked then
@@ -120,15 +90,15 @@ function addToFavourites() {
 
           // We cretate a new object containg revelent info of hero and push it into favouritesArray
           let heroInfo = {
-               name: this.parentElement.parentElement.children[2].children[0].innerHTML,
-               description: this.parentElement.parentElement.children[2].children[1].innerHTML,
-               comics: this.parentElement.parentElement.children[2].children[2].innerHTML,
-               series: this.parentElement.parentElement.children[2].children[3].innerHTML,
-               stories: this.parentElement.parentElement.children[2].children[4].innerHTML,
-               portraitImage: this.parentElement.parentElement.children[2].children[5].innerHTML,
-               id: this.parentElement.parentElement.children[2].children[6].innerHTML,
-               landscapeImage: this.parentElement.parentElement.children[2].children[7].innerHTML,
-               squareImage: this.parentElement.parentElement.children[2].children[8].innerHTML
+               name: this.parentElement.children[3].children[0].innerHTML,
+               description: this.parentElement.children[3].children[8].innerHTML,
+               comics: this.parentElement.children[3].children[4].innerHTML,
+               series: this.parentElement.children[3].children[5].innerHTML,
+               stories: this.parentElement.children[3].children[6].innerHTML,
+               portraitImage: this.parentElement.children[3].children[1].innerHTML,
+               id: this.parentElement.children[3].children[3].innerHTML,
+               landscapeImage: this.parentElement.children[3].children[2].innerHTML,
+               squareImage: this.parentElement.children[3].children[7].innerHTML
           }
 
           // getting the favourites array which stores objects of character  
@@ -184,7 +154,8 @@ function addToFavourites() {
      else{
           
           // storing the id of character in a variable 
-          let idOfCharacterToBeRemoveFromFavourites = this.parentElement.parentElement.children[2].children[6].innerHTML;
+          // console.log(this.parentElement.children[3].children[3].innerHTML)
+          let idOfCharacterToBeRemoveFromFavourites = this.parentElement.children[3].children[3].innerHTML;
           
           // getting the favourites array from localStorage for removing the character object which is to be removed
           let favouritesArray = JSON.parse(localStorage.getItem("favouriteCharacters"));
@@ -226,26 +197,6 @@ function addToFavourites() {
           },1000);
           // console.log();
      }     
-}
-
-// Function which stores the info object of character for which user want to see the info 
-function addInfoInLocalStorage() {
-
-     // This function basically stores the data of character in localStorage.
-     // When user clicks on the info button and when the info page is opened that page fetches the heroInfo and display the data  
-     let heroInfo = {
-          name: this.parentElement.parentElement.parentElement.children[2].children[0].innerHTML,
-          description: this.parentElement.parentElement.parentElement.children[2].children[1].innerHTML,
-          comics: this.parentElement.parentElement.parentElement.children[2].children[2].innerHTML,
-          series: this.parentElement.parentElement.parentElement.children[2].children[3].innerHTML,
-          stories: this.parentElement.parentElement.parentElement.children[2].children[4].innerHTML,
-          portraitImage: this.parentElement.parentElement.parentElement.children[2].children[5].innerHTML,
-          id: this.parentElement.parentElement.parentElement.children[2].children[6].innerHTML,
-          landscapeImage: this.parentElement.parentElement.parentElement.children[2].children[7].innerHTML,
-          squareImage: this.parentElement.parentElement.parentElement.children[2].children[8].innerHTML
-     }
-
-     localStorage.setItem("heroInfo", JSON.stringify(heroInfo));
 }
 
 /*-----------------------------------------------------  Theme Changing  -------------------------------------------------  */
