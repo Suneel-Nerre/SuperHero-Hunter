@@ -81,7 +81,7 @@ function showSearchedResults(searchedHero) {
                     </div>
                     <div class="flex-col buttons">
                          <!-- <button class="btn"><i class="fa-solid fa-circle-info"></i> &nbsp; More Info</button> -->
-                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart fav-icon\"></i> &nbsp; Add to Favourites</button>"}
+                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart\"></i> &nbsp; Add to Favourites</button>"}
                     </div>
                     <div style="display:none;">
                          <span>${hero.name}</span>
@@ -116,8 +116,8 @@ function events() {
 function addToFavourites() {
 
      // If add to favourites button is cliked then
-     if (this.innerHTML == '<i class="fa-solid fa-heart fav-icon"></i> &nbsp; Add to Favourites') {
-
+     if (this.innerHTML == '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites') {
+          showNofitication('Successfully added to favorites');
           // We cretate a new object containg revelent info of hero and push it into favouritesArray
           let heroInfo = {
                name: this.parentElement.parentElement.children[2].children[0].innerHTML,
@@ -174,14 +174,17 @@ function addToFavourites() {
           this.innerHTML = '<i class="fa-solid fa-heart-circle-minus"></i> &nbsp; Remove from Favourites';
           
           // Displaying the "Added to Favourites" toast to DOM
-          document.querySelector(".fav-toast").setAttribute("data-visiblity","show");
+          // document.querySelector(".fav-toast").setAttribute("data-visiblity","show");
           // Deleting the "Added to Favourites" toast from DOM after 1 seconds
-          setTimeout(function(){
-               document.querySelector(".fav-toast").setAttribute("data-visiblity","hide");
-          },1000);
+          // setTimeout(function(){
+          //      document.querySelector(".fav-toast").setAttribute("data-visiblity","hide");
+          // },1000);
+
      }
      // For removing the character form favourites array
      else{
+
+          showNofitication('Successfully removed from favourites');
           
           // storing the id of character in a variable 
           let idOfCharacterToBeRemoveFromFavourites = this.parentElement.parentElement.children[2].children[6].innerHTML;
@@ -216,15 +219,14 @@ function addToFavourites() {
           
           
           // Convering the "Remove from Favourites" button to "Add to Favourites" 
-          this.innerHTML = '<i class="fa-solid fa-heart fav-icon"></i> &nbsp; Add to Favourites';
+          this.innerHTML = '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites';
           
           // Displaying the "Remove from Favourites" toast to DOM
-          document.querySelector(".remove-toast").setAttribute("data-visiblity","show");
+          // document.querySelector(".remove-toast").setAttribute("data-visiblity","show");
           // Deleting the "Remove from Favourites" toast from DOM after 1 seconds
-          setTimeout(function(){
-               document.querySelector(".remove-toast").setAttribute("data-visiblity","hide");
-          },1000);
-          // console.log();
+          // setTimeout(function(){
+          //      document.querySelector(".remove-toast").setAttribute("data-visiblity","hide");
+          // },1000);
      }     
 }
 
@@ -299,4 +301,8 @@ function themeChanger(){
           themeButton.childNodes[0].style.color = "white";
           localStorage.setItem("theme","light");
      }
+}
+
+function showNofitication(text){
+     alert(text);
 }
