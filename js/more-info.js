@@ -88,7 +88,10 @@ function addToFavourites() {
      // If add to favourites button is cliked then
      if (this.innerHTML == '<i class="fa-solid fa-heart fav-icon"></i> &nbsp; Add to Favourites') {
 
-          // We cretate a new object containg revelent info of hero and push it into favouritesArray
+          // Show popup that hero is added to favorites
+          showNotification("Successfully added to the favorites");
+
+          // We create a new object containg relevant info of hero and push it into favouritesArray
           let heroInfo = {
                name: this.parentElement.children[3].children[0].innerHTML,
                description: this.parentElement.children[3].children[8].innerHTML,
@@ -144,15 +147,18 @@ function addToFavourites() {
           this.innerHTML = '<i class="fa-solid fa-heart-circle-minus"></i> &nbsp; Remove from Favourites';
           
           // Displaying the "Added to Favourites" toast to DOM
-          document.querySelector(".fav-toast").setAttribute("data-visiblity","show");
+          // document.querySelector(".fav-toast").setAttribute("data-visiblity","show");
           // Deleting the "Added to Favourites" toast from DOM after 1 seconds
-          setTimeout(function(){
-               document.querySelector(".fav-toast").setAttribute("data-visiblity","hide");
-          },1000);
+          // setTimeout(function(){
+          //      document.querySelector(".fav-toast").setAttribute("data-visiblity","hide");
+          // },1000);
      }
      // For removing the character form favourites array
      else{
           
+          //show notification that hero is removed from favorites
+          showNotification("Successfully removed from favorites");
+
           // storing the id of character in a variable 
           // console.log(this.parentElement.children[3].children[3].innerHTML)
           let idOfCharacterToBeRemoveFromFavourites = this.parentElement.children[3].children[3].innerHTML;
@@ -190,11 +196,11 @@ function addToFavourites() {
           this.innerHTML = '<i class="fa-solid fa-heart fav-icon"></i> &nbsp; Add to Favourites';
           
           // Displaying the "Remove from Favourites" toast to DOM
-          document.querySelector(".remove-toast").setAttribute("data-visiblity","show");
+          // document.querySelector(".remove-toast").setAttribute("data-visiblity","show");
           // Deleting the "Remove from Favourites" toast from DOM after 1 seconds
-          setTimeout(function(){
-               document.querySelector(".remove-toast").setAttribute("data-visiblity","hide");
-          },1000);
+          // setTimeout(function(){
+          //      document.querySelector(".remove-toast").setAttribute("data-visiblity","hide");
+          // },1000);
           // console.log();
      }     
 }
@@ -202,52 +208,56 @@ function addToFavourites() {
 /*-----------------------------------------------------  Theme Changing  -------------------------------------------------  */
 
 // Selection of theme button
-let themeButton = document.getElementById("theme-btn");
+// let themeButton = document.getElementById("theme-btn");
 
-themeButton.addEventListener("click",themeChanger);
+// themeButton.addEventListener("click",themeChanger);
 
-// IIFE fuction which checks the localStorage and applies the presviously set theme
-(function (){
-     let currentTheme = localStorage.getItem("theme");
-     if(currentTheme == null){
-          root.setAttribute("color-scheme","light");
-          themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-          themeButton.style.backgroundColor="#0D4C92";
-          localStorage.setItem("theme","light");
-          return;
-     }
+// // IIFE fuction which checks the localStorage and applies the presviously set theme
+// (function (){
+//      let currentTheme = localStorage.getItem("theme");
+//      if(currentTheme == null){
+//           root.setAttribute("color-scheme","light");
+//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//           themeButton.style.backgroundColor="#0D4C92";
+//           localStorage.setItem("theme","light");
+//           return;
+//      }
 
-     switch(currentTheme){
-          case "light":
-               root.setAttribute("color-scheme","light");
-               themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-               themeButton.style.backgroundColor="#0D4C92";
-               break;
-          case "dark":
-               root.setAttribute("color-scheme","dark");
-               themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-               themeButton.style.backgroundColor="#FB2576";
-               themeButton.childNodes[0].style.color = "black";
-               break;
-     }
-})();
+//      switch(currentTheme){
+//           case "light":
+//                root.setAttribute("color-scheme","light");
+//                themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//                themeButton.style.backgroundColor="#0D4C92";
+//                break;
+//           case "dark":
+//                root.setAttribute("color-scheme","dark");
+//                themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+//                themeButton.style.backgroundColor="#FB2576";
+//                themeButton.childNodes[0].style.color = "black";
+//                break;
+//      }
+// })();
 
-// function for handeling theme button changes
-function themeChanger(){
-     let root = document.getElementById("root");
-     // let themeIcon = document.querySelector("#themeButton i");
-     if(root.getAttribute("color-scheme") == "light"){
-          root.setAttribute("color-scheme","dark");
-          themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-          themeButton.style.backgroundColor="#FB2576";
-          themeButton.childNodes[0].style.color = "black";
-          localStorage.setItem("theme","dark");
-     }
-     else if(root.getAttribute("color-scheme") == "dark"){
-          root.setAttribute("color-scheme","light");
-          themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-          themeButton.style.backgroundColor="#0D4C92";
-          themeButton.childNodes[0].style.color = "white";
-          localStorage.setItem("theme","light");
-     }
+// // function for handeling theme button changes
+// function themeChanger(){
+//      let root = document.getElementById("root");
+//      // let themeIcon = document.querySelector("#themeButton i");
+//      if(root.getAttribute("color-scheme") == "light"){
+//           root.setAttribute("color-scheme","dark");
+//           themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+//           themeButton.style.backgroundColor="#FB2576";
+//           themeButton.childNodes[0].style.color = "black";
+//           localStorage.setItem("theme","dark");
+//      }
+//      else if(root.getAttribute("color-scheme") == "dark"){
+//           root.setAttribute("color-scheme","light");
+//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//           themeButton.style.backgroundColor="#0D4C92";
+//           themeButton.childNodes[0].style.color = "white";
+//           localStorage.setItem("theme","light");
+//      }
+// }
+
+function showNotification(text){
+     alert(text);
 }
