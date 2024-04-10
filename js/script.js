@@ -117,6 +117,7 @@ function addToFavourites() {
 
      // If add to favourites button is cliked then
      if (this.innerHTML == '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites') {
+          // show popup that hero is added to favorites
           showNofitication('Successfully added to favorites');
           // We cretate a new object containg revelent info of hero and push it into favouritesArray
           let heroInfo = {
@@ -184,6 +185,7 @@ function addToFavourites() {
      // For removing the character form favourites array
      else{
 
+          // show popup that hero is removed from favorites
           showNofitication('Successfully removed from favourites');
           
           // storing the id of character in a variable 
@@ -218,7 +220,7 @@ function addToFavourites() {
           localStorage.setItem("favouritesCharacterIDs", JSON.stringify([...favouritesCharacterIDs]));
           
           
-          // Convering the "Remove from Favourites" button to "Add to Favourites" 
+          // Converting the "Remove from Favourites" button to "Add to Favourites" 
           this.innerHTML = '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites';
           
           // Displaying the "Remove from Favourites" toast to DOM
@@ -258,50 +260,50 @@ let themeButton = document.getElementById("theme-btn");
 themeButton.addEventListener("click",themeChanger);
 
 // IIFE fuction which checks the localStorage and applies the presviously set theme
-(function (){
-     let currentTheme = localStorage.getItem("theme");
-     if(currentTheme == null){
-          root.setAttribute("color-scheme","light");
-          themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-          themeButton.style.backgroundColor="#0D4C92";
-          localStorage.setItem("theme","light");
-          return;
-     }
+// (function (){
+//      let currentTheme = localStorage.getItem("theme");
+//      if(currentTheme == null){
+//           root.setAttribute("color-scheme","light");
+//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//           themeButton.style.backgroundColor="#0D4C92";
+//           localStorage.setItem("theme","light");
+//           return;
+//      }
 
-     switch(currentTheme){
-          case "light":
-               root.setAttribute("color-scheme","light");
-               themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-               themeButton.style.backgroundColor="#0D4C92";
-               break;
-          case "dark":
-               root.setAttribute("color-scheme","dark");
-               themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-               themeButton.style.backgroundColor="#FB2576";
-               themeButton.childNodes[0].style.color = "black";
-               break;
-     }
-})();
+//      switch(currentTheme){
+//           case "light":
+//                root.setAttribute("color-scheme","light");
+//                themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//                themeButton.style.backgroundColor="#0D4C92";
+//                break;
+//           case "dark":
+//                root.setAttribute("color-scheme","dark");
+//                themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+//                themeButton.style.backgroundColor="#FB2576";
+//                themeButton.childNodes[0].style.color = "black";
+//                break;
+//      }
+// })();
 
-// function for handeling theme button changes
-function themeChanger(){
-     let root = document.getElementById("root");
-     // let themeIcon = document.querySelector("#themeButton i");
-     if(root.getAttribute("color-scheme") == "light"){
-          root.setAttribute("color-scheme","dark");
-          themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-          themeButton.style.backgroundColor="#FB2576";
-          themeButton.childNodes[0].style.color = "black";
-          localStorage.setItem("theme","dark");
-     }
-     else if(root.getAttribute("color-scheme") == "dark"){
-          root.setAttribute("color-scheme","light");
-          themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-          themeButton.style.backgroundColor="#0D4C92";
-          themeButton.childNodes[0].style.color = "white";
-          localStorage.setItem("theme","light");
-     }
-}
+// // function for handeling theme button changes
+// function themeChanger(){
+//      let root = document.getElementById("root");
+//      // let themeIcon = document.querySelector("#themeButton i");
+//      if(root.getAttribute("color-scheme") == "light"){
+//           root.setAttribute("color-scheme","dark");
+//           themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
+//           themeButton.style.backgroundColor="#FB2576";
+//           themeButton.childNodes[0].style.color = "black";
+//           localStorage.setItem("theme","dark");
+//      }
+//      else if(root.getAttribute("color-scheme") == "dark"){
+//           root.setAttribute("color-scheme","light");
+//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
+//           themeButton.style.backgroundColor="#0D4C92";
+//           themeButton.childNodes[0].style.color = "white";
+//           localStorage.setItem("theme","light");
+//      }
+// }
 
 function showNofitication(text){
      alert(text);
