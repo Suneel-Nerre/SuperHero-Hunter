@@ -81,7 +81,7 @@ function showSearchedResults(searchedHero) {
                     </div>
                     <div class="flex-col buttons">
                          <!-- <button class="btn"><i class="fa-solid fa-circle-info"></i> &nbsp; More Info</button> -->
-                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-circle-minus\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart\"></i> &nbsp; Add to Favourites</button>"}
+                         <button class="btn add-to-fav-btn">${favouritesCharacterIDs.has(`${hero.id}`) ? "<i class=\"fa-solid fa-heart-crack\" style=\"color: #FFD43B;\"></i> &nbsp; Remove from Favourites" :"<i class=\"fa-solid fa-heart\" style=\"color: #ff0000;\"></i> &nbsp; Add to Favourites</button>"}
                     </div>
                     <div style="display:none;">
                          <span>${hero.name}</span>
@@ -113,10 +113,11 @@ function events() {
 }
 
 // Function invoked when "Add to Favourites" button or "Remvove from favourites" button is click appropriate action is taken accoring to the button clicked
-function addToFavourites() {
+function addToFavourites(e) {
 
+     console.log(e.target);
      // If add to favourites button is cliked then
-     if (this.innerHTML == '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites') {
+     if (this.innerHTML == '<i class="fa-solid fa-heart" style="color: #ff0000;"></i> &nbsp; Add to Favourites') {
           // show popup that hero is added to favorites
           showNofitication('Successfully added to favorites');
           // We cretate a new object containg revelent info of hero and push it into favouritesArray
@@ -172,15 +173,7 @@ function addToFavourites() {
           localStorage.setItem("favouriteCharacters", JSON.stringify(favouritesArray));
 
           // Convering the "Add to Favourites" button to "Remove from Favourites"
-          this.innerHTML = '<i class="fa-solid fa-heart-circle-minus"></i> &nbsp; Remove from Favourites';
-          
-          // Displaying the "Added to Favourites" toast to DOM
-          // document.querySelector(".fav-toast").setAttribute("data-visiblity","show");
-          // Deleting the "Added to Favourites" toast from DOM after 1 seconds
-          // setTimeout(function(){
-          //      document.querySelector(".fav-toast").setAttribute("data-visiblity","hide");
-          // },1000);
-
+          this.innerHTML = '<i class="fa-solid fa-heart-crack" style="color: #FFD43B;"></i> &nbsp; Remove from Favourites';
      }
      // For removing the character form favourites array
      else{
@@ -221,14 +214,7 @@ function addToFavourites() {
           
           
           // Converting the "Remove from Favourites" button to "Add to Favourites" 
-          this.innerHTML = '<i class="fa-solid fa-heart"></i> &nbsp; Add to Favourites';
-          
-          // Displaying the "Remove from Favourites" toast to DOM
-          // document.querySelector(".remove-toast").setAttribute("data-visiblity","show");
-          // Deleting the "Remove from Favourites" toast from DOM after 1 seconds
-          // setTimeout(function(){
-          //      document.querySelector(".remove-toast").setAttribute("data-visiblity","hide");
-          // },1000);
+          this.innerHTML = '<i class="fa-solid fa-heart" style="color: #ff0000;"></i> &nbsp; Add to Favourites';
      }     
 }
 
@@ -251,59 +237,6 @@ function addInfoInLocalStorage() {
 
      localStorage.setItem("heroInfo", JSON.stringify(heroInfo));
 }
-
-/*-----------------------------------------------------  Theme Changing  -------------------------------------------------  */
-
-// Selection of theme button
-let themeButton = document.getElementById("theme-btn");
-
-themeButton.addEventListener("click",themeChanger);
-
-// IIFE fuction which checks the localStorage and applies the presviously set theme
-// (function (){
-//      let currentTheme = localStorage.getItem("theme");
-//      if(currentTheme == null){
-//           root.setAttribute("color-scheme","light");
-//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-//           themeButton.style.backgroundColor="#0D4C92";
-//           localStorage.setItem("theme","light");
-//           return;
-//      }
-
-//      switch(currentTheme){
-//           case "light":
-//                root.setAttribute("color-scheme","light");
-//                themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-//                themeButton.style.backgroundColor="#0D4C92";
-//                break;
-//           case "dark":
-//                root.setAttribute("color-scheme","dark");
-//                themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-//                themeButton.style.backgroundColor="#FB2576";
-//                themeButton.childNodes[0].style.color = "black";
-//                break;
-//      }
-// })();
-
-// // function for handeling theme button changes
-// function themeChanger(){
-//      let root = document.getElementById("root");
-//      // let themeIcon = document.querySelector("#themeButton i");
-//      if(root.getAttribute("color-scheme") == "light"){
-//           root.setAttribute("color-scheme","dark");
-//           themeButton.innerHTML = `<i class="fa-solid fa-sun"></i>`;
-//           themeButton.style.backgroundColor="#FB2576";
-//           themeButton.childNodes[0].style.color = "black";
-//           localStorage.setItem("theme","dark");
-//      }
-//      else if(root.getAttribute("color-scheme") == "dark"){
-//           root.setAttribute("color-scheme","light");
-//           themeButton.innerHTML = `<i class="fa-solid fa-moon"></i>`;
-//           themeButton.style.backgroundColor="#0D4C92";
-//           themeButton.childNodes[0].style.color = "white";
-//           localStorage.setItem("theme","light");
-//      }
-// }
 
 function showNofitication(text){
      alert(text);
